@@ -29,8 +29,11 @@ def ComplaintFormView(request):
     if request.method == 'POST':
         form = ComplaintForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, '¡Complaint enviado con éxito!')
+            complaint = form.save(commit=False)
+            complaint.user = request.user
+            complaint.save()
+            id_complaint = complaint.id
+            messages.success(request, f'¡Complaint N° {id_complaint} sent successfully!')
             return render(request, 'users/client_home.html')
     else:
         form = ComplaintForm()
@@ -39,8 +42,8 @@ def ComplaintFormView(request):
 class ClientHome(LoginRequiredMixin, TemplateView):
     template_name = "users/client_home.html"
 
-class RegistrationView(SuccessMessageMixin, View):
-    success_message = 'hollaaa'
+class RegistrationView(View):
+    
     def get(self, request):
         data = {
             'form': RegistrationForm()
@@ -59,4 +62,6 @@ class RegistrationView(SuccessMessageMixin, View):
             'form' : user_create_form
         }
         return render(request, "registration/registration.html", data)
+    
+
 

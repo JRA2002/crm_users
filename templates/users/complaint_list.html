@@ -1,14 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if user.is_authenticated %}
-    {% for item in complaints %}
-    <h2>{{item.id}}</h2>
-    <h2>{{item.motive}}</h2>
-    <h2>{{item.title}}</h2>
-    <h2>{{item.description}}</h2>
-    {% endfor %}
-{% else %}
-<h1>NOTHING TO SHOW</h1>
-{% endif %}
+<div class="container mt-3 pd-3" style="width: 50rem">
+    <h1>YOUR CLAIMS</h1>
+    {% if user.is_authenticated %}
+    <table class="table table-dark table-striped ">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">MOTIVE</th>
+            <th scope="col">TITLE</th>
+            <th scope="col">TIME</th>
+            <th scope="col">STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for item in complaints %}
+          <tr>
+            <th scope="row">{{item.id}}</th>
+            <td>{{item.motive}}</td>
+            <td>{{item.title}}</td>
+            <td>{{item.time}}</td>
+            {% if item.status == False %}
+            <td class="text-danger">PENDING</td>
+            {% else %}
+            <td class="text-success">SOLVED</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+</div>
 {% endblock %}

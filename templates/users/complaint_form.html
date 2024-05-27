@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-<h1>Complaint Forms</h1>
+<div class="container card mt-3 pd-3" style="width: 40rem">
+    <h1>Complete your claim data</h1>
 
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Send</button>
+    {{ form | crispy }}
+    <button class="btn btn-primary mb-2 mt-3" type="submit">Send</button>
 </form>
+</div>
 {% endblock %}

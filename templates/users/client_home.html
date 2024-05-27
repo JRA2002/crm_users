@@ -1,17 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if user.is_authenticated %}
-<h1>{{user}}</h1>
-    <h1>Welcome {{ request.user.username }}</h1>
-    <a href="{% url 'complaint' %}">NEW COMPLAINT</a>
-    <a href="{% url 'complaint_list' %}">VIEW COMPLAINT</a>
+<div class="container card mt-3 pd-3" style="width: 30rem">
+    {% if user.is_authenticated %}
+    <h1 class="text-center">Welcome {{ request.user.username }}</h1>
+    <a class="btn btn-success mb-2 mt-3 btn-lg" href="{% url 'complaint' %}">NEW COMPLAINT</a>
+    <a class="btn btn-info mb-2 mt-3 btn-lg" href="{% url 'complaint_list' %}">YOUR CLAIMS</a>
     {% if messages %}
-        <ul>
+        
             {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                <div class="text-center alert alert-{{ message.tags }}">
+                    {{ message|safe }}
+                </div>
             {% endfor %}
-        </ul>
+        
     {% endif %}
 {% endif %}
+</div>
 {% endblock %}
