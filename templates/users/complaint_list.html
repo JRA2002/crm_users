@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    {% for item in complaints %}
+    <h2>{{item.id}}</h2>
+    <h2>{{item.motive}}</h2>
+    <h2>{{item.title}}</h2>
+    <h2>{{item.description}}</h2>
+    {% endfor %}
+{% else %}
+<h1>NOTHING TO SHOW</h1>
+{% endif %}
+{% endblock %}

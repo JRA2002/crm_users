@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<h1>{{user}}</h1>
+    <h1>Welcome {{ request.user.username }}</h1>
+    <a href="{% url 'complaint' %}">NEW COMPLAINT</a>
+    <a href="{% url 'complaint_list' %}">VIEW COMPLAINT</a>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endif %}
+{% endblock %}
