@@ -8,8 +8,44 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-
+from django.http import HttpResponse
+import reportlab
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
 # Create your views here.
+
+def create_pdf(request):
+    buffer = io.BytesIO()
+
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    p.drawString(100, 100, "Hello world.")
+
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename="hello.pdf")
+
+def set_cookie_view(request):
+    response = HttpResponse("La cookie ha sido establecida")
+    # Establece una cookie
+    response.set_cookie('mi_cookie', 'valor_cookie', max_age=3600)  # La cookie expira en 1 hora
+    return response
+
+def get_cookie_view(request):
+    valor_cookie = request.COOKIES.get('mi_cookie')
+    if valor_cookie:
+        return HttpResponse(f'El valor de la cookie es: {valor_cookie}')
+    else:
+        return HttpResponse('No se encontró la cookie')
 
 class HomeView(TemplateView):
     template_name = "users/home.html"
@@ -41,6 +77,13 @@ def ComplaintFormView(request):
 
 class ClientHome(LoginRequiredMixin, TemplateView):
     template_name = "users/client_home.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        num_visits = self.request.session.get('num_visits', 0)
+        self.request.session['num_visits'] = num_visits + 1
+        context['num_visits'] = num_visits
+        return context
 
 class RegistrationView(View):
     

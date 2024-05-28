@@ -7,4 +7,7 @@ urlpatterns = [
     path('complaint/',views.ComplaintFormView, name='complaint'),
     path("clienthome/",views.ClientHome.as_view(), name="clienthome"),
     path('register/',views.RegistrationView.as_view(), name="registration"),
+    path('set_cookie/',views.set_cookie_view, name='set_cookie'),
+    path('get_cookie/', views.get_cookie_view, name='get_cookie'),
+    path('pdf/',views.create_pdf, name='pdf'),
 ]

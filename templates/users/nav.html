@@ -12,20 +12,7 @@
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="{% url 'home' %}" class="nav-link px-2 text-secondary">Home</a></li>
         </ul>
-
-        <div class="text-end">
-        {% if user.is_authenticated %}
-        <div class="btn-group">
-            <a class="btn btn-secondary me-2" href="{% url 'clienthome' %}">Dashboard</a>
-            <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button class="btn btn-danger me-2" type="submit">Logout</button>
-                <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-  </button>
-  
-  <!-- Modal -->
+        <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -34,19 +21,34 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          ...
+          <p>Are you sure you want to logout ?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Logout</button>
+          </form>
         </div>
       </div>
     </div>
   </div>
+        <div class="text-end">
+        {% if user.is_authenticated %}
+        <div class="btn-group ">
+            <a class="btn btn-secondary me-2" href="{% url 'clienthome' %}">Dashboard</a>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-danger" type="submit">Logout</button>
             </form>
-            
+            <!-- Button trigger modal -->
+
+
         </div>
-        
+      
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Launch demo modal
+          </button>
         {% else %}
         <a class="btn btn-primary me-2" href="{% url 'login' %}">Login</a>
         <a class="btn btn-warning" href="{% url 'registration' %}">SignUp</a>
