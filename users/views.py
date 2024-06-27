@@ -37,7 +37,7 @@ def create_pdf(request):
 def set_cookie_view(request):
     response = HttpResponse("La cookie ha sido establecida")
     # Establece una cookie
-    response.set_cookie('mi_cookie', 'valor_cookie', max_age=3600)  # La cookie expira en 1 hora
+    response.set_cookie('mi_cookie', 'valor_cookie', max_age=60)  # La cookie expira en 1 hora
     return response
 
 def get_cookie_view(request):
@@ -84,6 +84,10 @@ class ClientHome(LoginRequiredMixin, TemplateView):
         self.request.session['num_visits'] = num_visits + 1
         context['num_visits'] = num_visits
         return context
+    
+    def get_product_session(request, claim_id):
+        claim = 
+        pass
 
 class RegistrationView(View):
     
