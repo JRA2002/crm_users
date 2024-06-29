@@ -4,7 +4,7 @@ from .models import Client
 from django import forms
 
 
-class LoginForm(AuthenticationForm):
+'''class LoginForm(AuthenticationForm):
     pass
 class ComplaintForm(forms.ModelForm):
     class Meta:
@@ -31,4 +31,5 @@ class RegistrationForm(UserCreationForm):
          if User.objects.filter(username=username_field).exists():
               raise forms.ValidationError('This username already exist')
          return username_field
+         '''
     

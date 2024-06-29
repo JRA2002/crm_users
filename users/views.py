@@ -86,7 +86,7 @@ class ClientHome(LoginRequiredMixin, TemplateView):
         return context
     
     def get_product_session(request, claim_id):
-        claim = 
+    
         pass
 
 class RegistrationView(View):
