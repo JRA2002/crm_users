@@ -1,8 +1,8 @@
 from typing import Any
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView,ListView, View
+from users.forms import  RegistrationForm,ClaimForm
 from .models import Client
-from .forms import ComplaintForm, RegistrationForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -50,30 +50,30 @@ def get_cookie_view(request):
 class HomeView(TemplateView):
     template_name = "users/home.html"
 
-class ComplaintView(LoginRequiredMixin, ListView):
+class ClaimView(LoginRequiredMixin, ListView):
     model = Client
-    template_name = "users/complaint_list.html"
-    context_object_name = "complaints"
+    template_name = "users/claim_list.html"
+    context_object_name = "claims"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user'] = self.request.user
-        context['complaints'] = Client.objects.filter(user=context['user'])
+        context['claims'] = Client.objects.filter(user=context['user'])
         return context
 @login_required
-def ComplaintFormView(request):
+def ClaimFormView(request):
     if request.method == 'POST':
-        form = ComplaintForm(request.POST)
+        form = ClaimForm(request.POST)
         if form.is_valid():
-            complaint = form.save(commit=False)
-            complaint.user = request.user
-            complaint.save()
-            id_complaint = complaint.id
-            messages.success(request, f'¡Complaint N° {id_complaint} sent successfully!')
+            claim = form.save(commit=False)
+            claim.user = request.user
+            claim.save()
+            id_complaint = claim.id
+            messages.success(request, f'¡Claim N° {id_complaint} sent successfully!')
             return render(request, 'users/client_home.html')
     else:
-        form = ComplaintForm()
-    return render(request, 'users/complaint_form.html', {'form': form})
+        form = ClaimForm()
+    return render(request, 'users/claim_form.html', {'form': form})
 
 class ClientHome(LoginRequiredMixin, TemplateView):
     template_name = "users/client_home.html"

@@ -1,17 +1,16 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
-from .models import Client
+from .models import Client,Claim
 from django import forms
 
 
-'''class LoginForm(AuthenticationForm):
+class LoginForm(AuthenticationForm):
     pass
-class ComplaintForm(forms.ModelForm):
+class ClaimForm(forms.ModelForm):
     class Meta:
-        model = Client
-        fields = ["motive", "title","description"]
-
-
+        model = Claim
+        fields = ['product','title', 'description']
+        
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(label='Email')
     first_name = forms.CharField(label='first_name')
@@ -31,5 +30,5 @@ class RegistrationForm(UserCreationForm):
          if User.objects.filter(username=username_field).exists():
               raise forms.ValidationError('This username already exist')
          return username_field
-         '''
+         
     
