@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: django_app
+    volumes:
+      - .:/app
+      # Este volumen hace que tu DB sea persistente en Linux Mint
+      - django_db_data:/app/db_data 
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+    restart: always
+
+volumes:
+  django_db_data:
