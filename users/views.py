@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from users.models import Claim
 import io
 from django.http import FileResponse
 from reportlab.pdfgen import canvas
@@ -54,11 +55,9 @@ class ClaimView(LoginRequiredMixin, ListView):
     template_name = "users/claim_list.html"
     context_object_name = "claims"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user
-        context['claims'] = User.objects.filter(user=context['user'])
-        return context
+    def get_queryset(self):
+        return Claim.objects.filter(user=self.request.user)
+        
 @login_required
 def ClaimFormView(request):
     if request.method == 'POST':
@@ -83,10 +82,6 @@ class ClientHome(LoginRequiredMixin, TemplateView):
         self.request.session['num_visits'] = num_visits + 1
         context['num_visits'] = num_visits
         return context
-    
-    def get_product_session(request, claim_id):
-    
-        pass
 
 class RegistrationView(View):
     

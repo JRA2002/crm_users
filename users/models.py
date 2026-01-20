@@ -17,7 +17,7 @@ class Claim(models.Model):
         CLOSED = 'CL', 'Finalizada'
 
     # Relaciones
-    client = models.ForeignKey(User, on_delete=models.CASCADE, related_name="claims")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="claims")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="claims")
     
     # Información de la reclamación
@@ -36,7 +36,7 @@ class Claim(models.Model):
     )
 
     def __str__(self):
-        return f"{self.title} - {self.client}"
+        return f"{self.title}"
 
     class Meta:
         verbose_name = "Reclamación"
