@@ -54,6 +54,7 @@ secrets.ini
 temp/
 tmp/
 logs/
+staticfiles/
 
 ### Deployment Specific ###
 *.pth

@@ -2,14 +2,13 @@ from typing import Any
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView,ListView, View
 from users.forms import  RegistrationForm,ClaimForm
-from .models import Client
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse
-import reportlab
+from django.contrib.auth.models import User
 import io
 from django.http import FileResponse
 from reportlab.pdfgen import canvas
@@ -51,14 +50,14 @@ class HomeView(TemplateView):
     template_name = "users/home.html"
 
 class ClaimView(LoginRequiredMixin, ListView):
-    model = Client
+    model = User
     template_name = "users/claim_list.html"
     context_object_name = "claims"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user'] = self.request.user
-        context['claims'] = Client.objects.filter(user=context['user'])
+        context['claims'] = User.objects.filter(user=context['user'])
         return context
 @login_required
 def ClaimFormView(request):

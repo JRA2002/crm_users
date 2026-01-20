@@ -1,19 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
-class Client(models.Model):
-    name = models.CharField("Nombre Completo", max_length=100)
-    email = models.EmailField("Correo Electrónico", unique=True) # Evita correos duplicados
-    phone = models.CharField("Teléfono", max_length=20)
-    address = models.CharField("Dirección", max_length=255) # Cambié direction por address (más común)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = "Cliente"
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
+from django.contrib.auth.models import User
 
 class Product(models.Model):
     name = models.CharField("Nombre del Producto", max_length=100)
@@ -30,7 +17,7 @@ class Claim(models.Model):
         CLOSED = 'CL', 'Finalizada'
 
     # Relaciones
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="claims")
+    client = models.ForeignKey(User, on_delete=models.CASCADE, related_name="claims")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="claims")
     
     # Información de la reclamación
@@ -49,7 +36,7 @@ class Claim(models.Model):
     )
 
     def __str__(self):
-        return f"{self.title} - {self.client.name}"
+        return f"{self.title} - {self.client}"
 
     class Meta:
         verbose_name = "Reclamación"

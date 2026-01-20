@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
-from .models import Client,Claim
+from .models import Claim
 from django import forms
 
 
